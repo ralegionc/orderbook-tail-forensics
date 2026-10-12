@@ -12,6 +12,8 @@ This project replays one full day of real Nasdaq order flow through six order bo
 
 ## Data
 
+> The raw inputs are not in this repository. [DATA.md](DATA.md) records exactly which files were used, with sizes and fingerprints, and how to re-fetch them.
+
 One trading day of Nasdaq TotalView-ITCH 5.0 (30 Dec 2019, 3.5 GB compressed, 268.7M messages) from Nasdaq's public sample server. `itch_extract` keeps five heavily traded names, AAPL, MSFT, AMZN, TSLA and QQQ, which gives **6.1M book events**.
 
 ITCH reports executions against resting orders but never the incoming order that caused them. The extractor groups consecutive executions with the same symbol, side and timestamp, and replays each group as one aggressive **sweep**. A reference book checks that a price-time-priority sweep would fill exactly the orders Nasdaq reported. When it would not (hidden liquidity, auction crosses), the group is written as per-order executions instead. So the replayed book never drifts from Nasdaq's.
